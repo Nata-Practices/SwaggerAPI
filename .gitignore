@@ -1,2 +1,12 @@
 bin
 .idea
+apphost.exe
+rider.project.model.nuget.info
+rider.project.restore.info
+SwaggerAPI.AssemblyInfoInputs.cache
+SwaggerAPI.AssemblyInfo.cs
+SwaggerAPI.dll
+SwaggerAPI.dll
+SwaggerAPI.dll
+SwaggerAPI.pdb
+SwaggerAPI.sourcelink.json
