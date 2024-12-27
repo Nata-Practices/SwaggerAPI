@@ -1,0 +1,207 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SwaggerAPI</name>
+    </assembly>
+    <members>
+        <member name="T:SwaggerAPI.Controllers.EventsController">
+            <summary>
+            Контроллер для управления событиями.
+            </summary>
+        </member>
+        <member name="M:SwaggerAPI.Controllers.EventsController.#ctor(SwaggerAPI.Services.IEventService)">
+            <summary>
+            Контроллер для управления событиями.
+            </summary>
+        </member>
+        <member name="M:SwaggerAPI.Controllers.EventsController.GetAllEvents">
+            <summary>
+            Получить список всех событий.
+            </summary>
+            <returns>Список событий</returns>
+            <response code="200">Успешный ответ с данными событий</response>
+        </member>
+        <member name="M:SwaggerAPI.Controllers.EventsController.GetEventById(System.String)">
+            <summary>
+            Получить событие по идентификатору.
+            </summary>
+            <param name="id">Идентификатор события</param>
+            <returns>Информация о событии</returns>
+            <response code="200">Успешный ответ с данными события</response>
+            <response code="404">Событие с таким идентификатором не найдено</response>
+        </member>
+        <member name="M:SwaggerAPI.Controllers.EventsController.AddEvent(SwaggerAPI.Models.EventModel)">
+            <summary>
+            Добавить новое событие.
+            </summary>
+            <param name="newEvent">Модель нового события</param>
+            <returns>Созданное событие</returns>
+            <response code="201">Событие успешно создано</response>
+            <response code="400">Неверный формат данных</response>
+            <response code="409">Событие c таким id уже существует</response>
+        </member>
+        <member name="M:SwaggerAPI.Controllers.EventsController.UpdateEvent(System.String,SwaggerAPI.Models.EventModel)">
+            <summary>
+            Обновить событие по идентификатору.
+            </summary>
+            <param name="id">Идентификатор события</param>
+            <param name="updatedEvent">Модель обновленного события</param>
+            <returns>Обновленное событие</returns>
+            <response code="200">Событие успешно обновлено</response>
+            <response code="404">Событие с таким идентификатором не найдено</response>
+        </member>
+        <member name="M:SwaggerAPI.Controllers.EventsController.DeleteEvent(System.String)">
+            <summary>
+            Удалить событие по идентификатору.
+            </summary>
+            <param name="id">Идентификатор события</param>
+            <returns>Удаленное событие</returns>
+            <response code="200">Событие успешно удалено</response>
+            <response code="404">Событие с таким идентификатором не найдено</response>
+        </member>
+        <member name="M:SwaggerAPI.Controllers.EventsController.DeleteAllEvents">
+            <summary>
+            Удалить все события.
+            </summary>
+            <returns>Нет содержимого</returns>
+            <response code="204">Все события успешно удалены</response>
+        </member>
+        <member name="T:SwaggerAPI.Controllers.TicketsController">
+            <summary>
+            Контроллер для управления билетами.
+            </summary>
+        </member>
+        <member name="M:SwaggerAPI.Controllers.TicketsController.#ctor(SwaggerAPI.Services.ITicketService)">
+            <summary>
+            Контроллер для управления билетами.
+            </summary>
+        </member>
+        <member name="M:SwaggerAPI.Controllers.TicketsController.GetAllTickets">
+            <summary>
+            Получить список всех билетов.
+            </summary>
+            <returns>Список билетов.</returns>
+            <response code="200">Успешный ответ с данными билетов.</response>
+        </member>
+        <member name="M:SwaggerAPI.Controllers.TicketsController.GetTicketById(System.String)">
+            <summary>
+            Получить билет по идентификатору.
+            </summary>
+            <param name="id">Идентификатор билета.</param>
+            <returns>Информация о билете.</returns>
+            <response code="200">Успешный ответ с данными билета.</response>
+            <response code="404">Билет с указанным идентификатором не найден.</response>
+        </member>
+        <member name="M:SwaggerAPI.Controllers.TicketsController.BuyTicket(SwaggerAPI.Models.TicketModel)">
+            <summary>
+            Добавить билет.
+            </summary>
+            <param name="newTicket">Модель нового билета.</param>
+            <returns>Созданный билет.</returns>
+            <response code="201">Билет успешно создан.</response>
+            <response code="400">Некорректные данные для создания билета.</response>
+        </member>
+        <member name="M:SwaggerAPI.Controllers.TicketsController.UpdateTicket(System.String,System.String)">
+            <summary>
+            Обновить информацию о билете.
+            </summary>
+            <param name="id">Идентификатор билета.</param>
+            <param name="buyerName">Новое имя покупателя.</param>
+            <returns>Обновленный билет.</returns>
+            <response code="200">Билет успешно обновлен.</response>
+            <response code="404">Билет с указанным идентификатором не найден.</response>
+        </member>
+        <member name="M:SwaggerAPI.Controllers.TicketsController.DeleteTicket(System.String)">
+            <summary>
+            Удалить билет.
+            </summary>
+            <param name="id">Идентификатор билета.</param>
+            <returns>Информация о возвращенном билете.</returns>
+            <response code="200">Билет успешно удален.</response>
+            <response code="404">Билет с указанным идентификатором не найден.</response>
+        </member>
+        <member name="M:SwaggerAPI.Controllers.TicketsController.DeleteAllTickets">
+            <summary>
+            Удалить все билеты.
+            </summary>
+            <returns>Нет содержимого.</returns>
+            <response code="204">Все билеты успешно удалены.</response>
+        </member>
+        <member name="T:SwaggerAPI.Models.ApiResponse`1">
+            <summary>
+            Стандартный ответ API.
+            </summary>
+            <typeparam name="T">Тип данных, возвращаемых API.</typeparam>
+        </member>
+        <member name="P:SwaggerAPI.Models.ApiResponse`1.Success">
+            <summary>
+            Флаг успешности выполнения запроса.
+            </summary>
+        </member>
+        <member name="P:SwaggerAPI.Models.ApiResponse`1.Data">
+            <summary>
+            Данные, возвращаемые API.
+            </summary>
+        </member>
+        <member name="P:SwaggerAPI.Models.ApiResponse`1.Message">
+            <summary>
+            Сообщение, описывающее результат выполнения.
+            </summary>
+        </member>
+        <member name="T:SwaggerAPI.Models.EventModel">
+            <summary>
+            Модель события.
+            </summary>
+        </member>
+        <member name="P:SwaggerAPI.Models.EventModel.Id">
+            <summary>
+            Уникальный идентификатор события, используется как ключ в базе данных.
+            </summary>
+        </member>
+        <member name="P:SwaggerAPI.Models.EventModel.Name">
+            <summary>
+            Название события.
+            </summary>
+        </member>
+        <member name="P:SwaggerAPI.Models.EventModel.Description">
+            <summary>
+            Описание события.
+            </summary>
+        </member>
+        <member name="P:SwaggerAPI.Models.EventModel.Date">
+            <summary>
+            Дата и время события.
+            </summary>
+        </member>
+        <member name="P:SwaggerAPI.Models.EventModel.Price">
+            <summary>
+            Цена участия или билета на событие.
+            </summary>
+        </member>
+        <member name="T:SwaggerAPI.Models.TicketModel">
+            <summary>
+            Модель билета.
+            </summary>
+        </member>
+        <member name="P:SwaggerAPI.Models.TicketModel.Id">
+            <summary>
+            Уникальный идентификатор события, используется как ключ в базе данных.
+            </summary>
+        </member>
+        <member name="P:SwaggerAPI.Models.TicketModel.EventId">
+            <summary>
+            Идентификатор события, для которого был приобретен билет.
+            </summary>
+        </member>
+        <member name="P:SwaggerAPI.Models.TicketModel.BuyerName">
+            <summary>
+            Имя покупателя, который приобрел билет.
+            </summary>
+        </member>
+        <member name="P:SwaggerAPI.Models.TicketModel.PurchaseDate">
+            <summary>
+            Дата и время покупки билета.
+            </summary>
+        </member>
+    </members>
+</doc>

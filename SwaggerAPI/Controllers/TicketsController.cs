@@ -1,59 +1,170 @@
 using Microsoft.AspNetCore.Mvc;
+using SwaggerAPI.Models;
 using SwaggerAPI.Services;
 
 namespace SwaggerAPI.Controllers;
 
+/// <summary>
+/// Контроллер для управления билетами.
+/// </summary>
 [ApiController]
-[Route("[controller]")]
-public class TicketsController : ControllerBase
+[Route("api/tickets")]
+[Produces("application/json")]
+[Tags("Управление билетами")]
+public class TicketsController(ITicketService ticketService) : ControllerBase
 {
-    private readonly ITicketService _ticketService;
-
-    public TicketsController(ITicketService ticketService)
+    /// <summary>
+    /// Получить список всех билетов.
+    /// </summary>
+    /// <returns>Список билетов.</returns>
+    /// <response code="200">Успешный ответ с данными билетов.</response>
+    [HttpGet]
+    public async Task<IActionResult> GetAllTickets()
     {
-        _ticketService = ticketService;
+        var tickets = await ticketService.GetAllTicketsAsync();
+        return Ok(new ApiResponse<IEnumerable<TicketModel>>
+        {
+            Success = true,
+            Data = tickets,
+            Message = "Билеты успешно получены."
+        });
     }
 
-    [HttpGet]
-    public async Task<IActionResult> GetAllTickets() => Ok(await _ticketService.GetAllTicketsAsync());
-
+    /// <summary>
+    /// Получить билет по идентификатору.
+    /// </summary>
+    /// <param name="id">Идентификатор билета.</param>
+    /// <returns>Информация о билете.</returns>
+    /// <response code="200">Успешный ответ с данными билета.</response>
+    /// <response code="404">Билет с указанным идентификатором не найден.</response>
     [HttpGet("{id}")]
     public async Task<IActionResult> GetTicketById(string id)
     {
-        var ticket = await _ticketService.GetTicketByIdAsync(id);
-        return ticket is not null ? Ok(ticket) : NotFound();
+        var ticket = await ticketService.GetTicketByIdAsync(id);
+        if (ticket != null)
+        {
+            return Ok(new ApiResponse<TicketModel>
+            {
+                Success = true,
+                Data = ticket,
+                Message = "Билет успешно получен."
+            });
+        }
+
+        return NotFound(new ApiResponse<string>
+        {
+            Success = false,
+            Message = $"Билет №{id} не найден!"
+        });
     }
 
+    /// <summary>
+    /// Добавить билет.
+    /// </summary>
+    /// <param name="newTicket">Модель нового билета.</param>
+    /// <returns>Созданный билет.</returns>
+    /// <response code="201">Билет успешно создан.</response>
+    /// <response code="400">Некорректные данные для создания билета.</response>
     [HttpPost]
     public async Task<IActionResult> BuyTicket([FromBody] TicketModel newTicket)
     {
-        newTicket.PurchaseDate = DateTime.UtcNow;
-        await _ticketService.BuyTicketAsync(newTicket);
-        return CreatedAtAction(nameof(GetTicketById), new { id = newTicket.Id }, newTicket);
+        try
+        {
+            newTicket.PurchaseDate = DateTime.UtcNow;
+            await ticketService.BuyTicketAsync(newTicket);
+            return CreatedAtAction(nameof(GetTicketById), new { id = newTicket.Id }, new ApiResponse<TicketModel>
+            {
+                Success = true,
+                Data = newTicket,
+                Message = "Билет успешно приобретен."
+            });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new ApiResponse<string>
+            {
+                Success = false,
+                Message = "Произошла ошибка при покупке билета: " + ex.Message
+            });
+        }
     }
 
+    /// <summary>
+    /// Обновить информацию о билете.
+    /// </summary>
+    /// <param name="id">Идентификатор билета.</param>
+    /// <param name="buyerName">Новое имя покупателя.</param>
+    /// <returns>Обновленный билет.</returns>
+    /// <response code="200">Билет успешно обновлен.</response>
+    /// <response code="404">Билет с указанным идентификатором не найден.</response>
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateTicket(string id, [FromBody] string buyerName)
     {
-        var updatedTicket = await _ticketService.UpdateTicketAsync(id, buyerName);
-        return updatedTicket is not null ? Ok(updatedTicket) : NotFound();
+        var updatedTicket = await ticketService.UpdateTicketAsync(id, buyerName);
+        if (updatedTicket != null)
+        {
+            return Ok(new ApiResponse<TicketModel>
+            {
+                Success = true,
+                Data = updatedTicket,
+                Message = "Билет успешно обновлен."
+            });
+        }
+
+        return NotFound(new ApiResponse<string>
+        {
+            Success = false,
+            Message = $"Билет №{id} не найден!"
+        });
     }
 
+    /// <summary>
+    /// Удалить билет.
+    /// </summary>
+    /// <param name="id">Идентификатор билета.</param>
+    /// <returns>Информация о возвращенном билете.</returns>
+    /// <response code="200">Билет успешно удален.</response>
+    /// <response code="404">Билет с указанным идентификатором не найден.</response>
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteTicket(string id)
     {
-        var ticket = await _ticketService.ReturnTicketAsync(id);
-        return ticket is not null ? Ok(ticket) : NotFound();
+        var ticket = await ticketService.ReturnTicketAsync(id);
+        if (ticket != null)
+        {
+            return Ok(new ApiResponse<TicketModel>
+            {
+                Success = true,
+                Data = ticket,
+                Message = "Билет успешно возвращен."
+            });
+        }
+
+        return NotFound(new ApiResponse<string>
+        {
+            Success = false,
+            Message = $"Билет №{id} не найден!"
+        });
     }
     
+    /// <summary>
+    /// Удалить все билеты.
+    /// </summary>
+    /// <returns>Нет содержимого.</returns>
+    /// <response code="204">Все билеты успешно удалены.</response>
     [HttpDelete("all")]
     public async Task<IActionResult> DeleteAllTickets()
     {
-        var events = await _ticketService.GetAllTicketsAsync();
-        foreach (var evnt in events)
+        var tickets = await ticketService.GetAllTicketsAsync();
+        foreach (var ticket in tickets)
         {
-            await _ticketService.ReturnTicketAsync(evnt.Id);
+            await ticketService.ReturnTicketAsync(ticket.Id);
         }
-        return NoContent();
+
+        return Ok(new ApiResponse<string>
+        {
+            Success = true,
+            Data = null,
+            Message = "Все билеты успешно удалены."
+        });
     }
 }

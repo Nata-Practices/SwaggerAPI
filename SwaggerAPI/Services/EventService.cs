@@ -2,6 +2,7 @@ using System.Text.Json;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
+using SwaggerAPI.Models;
 
 namespace SwaggerAPI.Services;
 

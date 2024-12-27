@@ -20,6 +20,7 @@ SwaggerAPI/
 │   ├── EventsController.cs            # Обработчик запросов для работы с событиями
 │   ├── TicketsController.cs           # Обработчик запросов для работы с билетами
 ├── Models/                            # Модели данных приложения
+│   ├── ApiResponse.cs                 # Модель данных для ответа от API
 │   ├── EventModel.cs                  # Модель данных для событий
 │   ├── MongoDBSettings.cs             # Модель для конфигурации подключения к MongoDB
 │   ├── TicketModel.cs                 # Модель данных для билетов
@@ -28,7 +29,9 @@ SwaggerAPI/
 │   ├── TicketService.cs               # Сервис для работы с билетами
 ├── Tests/                             # Тесты для проверки функциональности приложения
 │   ├── ApiTests.cs                    # Тесты API для контроля корректности работы
-├── Program.cs                         # Точка входа в приложение
+├── Utils/                             # Утилиты приложения
+│   ├── ValidationFilter.cs            # Свой валидатор ошибок при выполнении запросов
+└── Program.cs                         # Точка входа в приложение
 ```
 
 ---
@@ -73,7 +76,7 @@ SwaggerAPI/
    ```
 2. Запусти тесты:
    ```bash
-   dotnet test
+   dotnet test --logger "console;verbosity=detailed"
    ```
    Команда выполнит все тесты, определённые в проекте, и выведет результаты в консоль.
 
@@ -82,19 +85,19 @@ SwaggerAPI/
 ## API Роуты
 
 ### Events
-- `GET /Events` — получить все события
-- `POST /Events` — создать новое событие
-- `GET /Events/{id}` — получить конкретное событие по id
-- `PUT /Events/{id}` — обновить конкретное событие по id
-- `DELETE /Events/{id}` — удалить конкретное событие по id
-- `DELETE /Events/all` — удалить все события
+- `GET /api/events` — получить все события
+- `POST /api/events` — создать новое событие
+- `GET /api/events/{id}` — получить конкретное событие по id
+- `PUT /api/events/{id}` — обновить конкретное событие по id
+- `DELETE /api/events/{id}` — удалить конкретное событие по id
+- `DELETE /api/events/all` — удалить все события
 
 ### Tickets
-- `GET /Tickets` — получить все билеты
-- `POST /Tickets` — создать новый билет
-- `GET /Tickets/{id}` — получить конкретный билет по id
-- `PUT /Tickets/{id}` — обновить конкретный билет по id
-- `DELETE /Tickets/{id}` — удалить конкретный билет по id
-- `DELETE /Tickets/all` — удалить все события
+- `GET /api/tickets` — получить все билеты
+- `POST /api/tickets` — создать новый билет
+- `GET /api/tickets/{id}` — получить конкретный билет по id
+- `PUT /api/tickets/{id}` — обновить конкретный билет по id
+- `DELETE /api/tickets/{id}` — удалить конкретный билет по id
+- `DELETE /api/tickets/all` — удалить все события
 
 ---
