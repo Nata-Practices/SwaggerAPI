@@ -1,7 +1,9 @@
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using SwaggerAPI.Services;
+using SwaggerAPI.Utils;
 
 namespace SwaggerAPI;
 
@@ -11,21 +13,43 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
         
+        // Меняю путь для 2-ух ебаных файлов
         builder.Configuration
             .SetBasePath(Directory.GetCurrentDirectory())
             .AddJsonFile("Properties/appsettings.json", optional: false, reloadOnChange: true)
             .AddJsonFile("Properties/appsettings.Development.json", optional: true, reloadOnChange: true);
         
+        // Выключаю автоматический трек ошибок
+        builder.Services.Configure<ApiBehaviorOptions>(options =>
+        {
+            options.SuppressModelStateInvalidFilter = true;
+        });
+        
         // Настройка логирования
         builder.Logging.ClearProviders();
         builder.Logging.AddConsole();
 
-        // Добавление контроллеров
-        builder.Services.AddControllers();
+        // Добавление контроллеров и подключение фильтра для валидации
+        builder.Services.AddControllers(options =>
+        {
+            options.Filters.Add<ValidationFilter>();
+        });
 
         // Добавление поддержки Swagger для документации API
         builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen();
+        builder.Services.AddSwaggerGen(options =>
+        {
+            options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+            {
+                Title = "API",
+                Version = "v1",
+                Description = "Основной API"
+            });
+
+            var xmlFile = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
+            var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+            options.IncludeXmlComments(xmlPath);
+        });
 
         // Конфигурация MongoDB
         builder.Services.Configure<MongoDBSettings>(
@@ -36,7 +60,6 @@ public class Program
             var settings = serviceProvider.GetRequiredService<IOptions<MongoDBSettings>>().Value;
             return new MongoClient(settings.ConnectionString);
         });
-
 
         // Конфигурация Redis
         builder.Services.AddStackExchangeRedisCache(options =>
@@ -72,7 +95,7 @@ public class Program
         }
 
         app.UseHttpsRedirection();
-        app.MapControllers(); // Регистрация контроллеров
+        app.MapControllers();
         app.Run();
     }
 }

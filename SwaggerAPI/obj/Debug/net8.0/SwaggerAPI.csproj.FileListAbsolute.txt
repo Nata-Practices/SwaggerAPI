@@ -437,3 +437,5 @@ D:\dev\Nata\WebApplication1\SwaggerAPI\obj\Debug\net8.0\refint\SwaggerAPI.dll
 D:\dev\Nata\WebApplication1\SwaggerAPI\obj\Debug\net8.0\SwaggerAPI.pdb
 D:\dev\Nata\WebApplication1\SwaggerAPI\obj\Debug\net8.0\SwaggerAPI.genruntimeconfig.cache
 D:\dev\Nata\WebApplication1\SwaggerAPI\obj\Debug\net8.0\ref\SwaggerAPI.dll
+D:\dev\Nata\WebApplication1\SwaggerAPI\bin\Debug\net8.0\SwaggerAPI.xml
+D:\dev\Nata\WebApplication1\SwaggerAPI\obj\Debug\net8.0\SwaggerAPI.xml
