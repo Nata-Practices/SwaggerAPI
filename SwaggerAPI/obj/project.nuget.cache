@@ -1,12 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "fQllKqPsm5A=",
+  "dgSpecHash": "M6X+VLSqt/k=",
   "success": true,
   "projectFilePath": "D:\\dev\\Nata\\WebApplication1\\SwaggerAPI\\SwaggerAPI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Godzzila\\.nuget\\packages\\awssdk.core\\3.7.100.14\\awssdk.core.3.7.100.14.nupkg.sha512",
     "C:\\Users\\Godzzila\\.nuget\\packages\\awssdk.securitytoken\\3.7.100.14\\awssdk.securitytoken.3.7.100.14.nupkg.sha512",
+    "C:\\Users\\Godzzila\\.nuget\\packages\\confluent.kafka\\2.6.1\\confluent.kafka.2.6.1.nupkg.sha512",
     "C:\\Users\\Godzzila\\.nuget\\packages\\dnsclient\\1.6.1\\dnsclient.1.6.1.nupkg.sha512",
+    "C:\\Users\\Godzzila\\.nuget\\packages\\librdkafka.redist\\2.6.1\\librdkafka.redist.2.6.1.nupkg.sha512",
     "C:\\Users\\Godzzila\\.nuget\\packages\\microsoft.aspnetcore.mvc.testing\\7.0.0\\microsoft.aspnetcore.mvc.testing.7.0.0.nupkg.sha512",
     "C:\\Users\\Godzzila\\.nuget\\packages\\microsoft.aspnetcore.openapi\\8.0.8\\microsoft.aspnetcore.openapi.8.0.8.nupkg.sha512",
     "C:\\Users\\Godzzila\\.nuget\\packages\\microsoft.aspnetcore.testhost\\7.0.0\\microsoft.aspnetcore.testhost.7.0.0.nupkg.sha512",

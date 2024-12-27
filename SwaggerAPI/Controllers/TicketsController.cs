@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Driver;
 using SwaggerAPI.Models;
 using SwaggerAPI.Services;
 
@@ -64,7 +65,8 @@ public class TicketsController(ITicketService ticketService) : ControllerBase
     /// <param name="newTicket">Модель нового билета.</param>
     /// <returns>Созданный билет.</returns>
     /// <response code="201">Билет успешно создан.</response>
-    /// <response code="400">Некорректные данные для создания билета.</response>
+    /// <response code="400">Неверный формат данных.</response>
+    /// <response code="409">Билет c таким id уже существует.</response>
     [HttpPost]
     public async Task<IActionResult> BuyTicket([FromBody] TicketModel newTicket)
     {
@@ -76,7 +78,15 @@ public class TicketsController(ITicketService ticketService) : ControllerBase
             {
                 Success = true,
                 Data = newTicket,
-                Message = "Билет успешно приобретен."
+                Message = "Билет успешно создан."
+            });
+        }
+        catch (MongoWriteException ex) when (ex.WriteError.Category == ServerErrorCategory.DuplicateKey)
+        {
+            return Conflict(new ApiResponse<string>
+            {
+                Success = false,
+                Message = $"Билет с id: {newTicket.Id} уже существует!"
             });
         }
         catch (Exception ex)
@@ -84,7 +94,7 @@ public class TicketsController(ITicketService ticketService) : ControllerBase
             return StatusCode(500, new ApiResponse<string>
             {
                 Success = false,
-                Message = "Произошла ошибка при покупке билета: " + ex.Message
+                Message = "Произошла ошибка при создании билета. Пожалуйста, попробуйте снова позже."
             });
         }
     }

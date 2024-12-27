@@ -66,7 +66,11 @@ public class Program
         {
             options.Configuration = builder.Configuration.GetSection("Redis")["ConnectionString"];
         });
-
+        
+        // Конфигурация kafka
+        builder.Services.AddSingleton<KafkaProducer>();
+        builder.Services.AddSingleton<KafkaConsumer>();
+        
         // Регистрация сервисов
         builder.Services.AddSingleton<IEventService>(serviceProvider =>
         {
@@ -85,7 +89,17 @@ public class Program
             var logger = serviceProvider.GetRequiredService<ILogger<TicketService>>();
             return new TicketService(client, settings, cache, logger);
         });
-
+        
+        builder.Services.AddSingleton<IObjectService>(serviceProvider =>
+        {
+            var client = serviceProvider.GetRequiredService<IMongoClient>();
+            var settings = serviceProvider.GetRequiredService<IOptions<MongoDBSettings>>();
+            var cache = serviceProvider.GetRequiredService<IDistributedCache>();
+            var logger = serviceProvider.GetRequiredService<ILogger<ObjectService>>();
+            var kafkaProducer = serviceProvider.GetRequiredService<KafkaProducer>();
+            return new ObjectService(client, settings, cache, kafkaProducer, logger);
+        });
+        
         var app = builder.Build();
 
         if (app.Environment.IsDevelopment())
@@ -93,7 +107,25 @@ public class Program
             app.UseSwagger();
             app.UseSwaggerUI();
         }
+        
+        // Регистрируем приём сообщений от kafka
+        var kafkaConsumer = app.Services.GetRequiredService<KafkaConsumer>();
+        kafkaConsumer.StartListening(async (key, value) =>
+        {
+            Console.WriteLine($"[Kafka] Новое сообщение: Key={key}, Value={value}");
+            var objectService = app.Services.GetRequiredService<IObjectService>();
 
+            try
+            {
+                await objectService.UpdateConfirmationTimestampAsync(key, DateTime.Parse(value));
+                Console.WriteLine($"[Kafka] Объект с ID={key} обновлен: ConfirmationTimestamp={value}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[Kafka] Ошибка обновления объекта: {ex.Message}");
+            }
+        });
+        
         app.UseHttpsRedirection();
         app.MapControllers();
         app.Run();

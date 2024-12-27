@@ -66,6 +66,51 @@
             <returns>Нет содержимого</returns>
             <response code="204">Все события успешно удалены</response>
         </member>
+        <member name="T:SwaggerAPI.Controllers.ObjectsController">
+            <summary>
+            Контроллер для управления объектами.
+            </summary>
+        </member>
+        <member name="M:SwaggerAPI.Controllers.ObjectsController.#ctor(SwaggerAPI.Services.IObjectService)">
+            <summary>
+            Контроллер для управления объектами.
+            </summary>
+        </member>
+        <member name="M:SwaggerAPI.Controllers.ObjectsController.GetObjects">
+            <summary>
+            Получить список всех объектов.
+            </summary>
+            <returns>Список объектов.</returns>
+            <response code="200">Успешный ответ с данными объектов.</response>
+        </member>
+        <member name="M:SwaggerAPI.Controllers.ObjectsController.CreateObject(SwaggerAPI.Models.ObjectModel)">
+            <summary>
+            Создать новый объект.
+            </summary>
+            <param name="objectModel">Модель нового объекта.</param>
+            <returns>Созданный объект.</returns>
+            <response code="201">Объект успешно создан.</response>
+            <response code="400">Некорректные данные для создания объекта.</response>
+            <response code="409">Объект с таким ID уже существует.</response>
+        </member>
+        <member name="M:SwaggerAPI.Controllers.ObjectsController.GetObjectById(System.String)">
+            <summary>
+            Получить объект по идентификатору.
+            </summary>
+            <param name="id">Идентификатор объекта.</param>
+            <returns>Информация об объекте.</returns>
+            <response code="200">Успешный ответ с данными объекта.</response>
+            <response code="404">Объект с указанным идентификатором не найден.</response>
+        </member>
+        <member name="M:SwaggerAPI.Controllers.ObjectsController.DeleteObject(System.String)">
+            <summary>
+            Удалить объект.
+            </summary>
+            <param name="id">Идентификатор объекта.</param>
+            <returns>Результат операции.</returns>
+            <response code="200">Объект успешно удален.</response>
+            <response code="404">Объект с указанным идентификатором не найден.</response>
+        </member>
         <member name="T:SwaggerAPI.Controllers.TicketsController">
             <summary>
             Контроллер для управления билетами.
@@ -99,7 +144,8 @@
             <param name="newTicket">Модель нового билета.</param>
             <returns>Созданный билет.</returns>
             <response code="201">Билет успешно создан.</response>
-            <response code="400">Некорректные данные для создания билета.</response>
+            <response code="400">Неверный формат данных.</response>
+            <response code="409">Билет c таким id уже существует.</response>
         </member>
         <member name="M:SwaggerAPI.Controllers.TicketsController.UpdateTicket(System.String,System.String)">
             <summary>
@@ -178,6 +224,31 @@
             Цена участия или билета на событие.
             </summary>
         </member>
+        <member name="T:SwaggerAPI.Models.ObjectModel">
+            <summary>
+            Модель данных для представления объекта.
+            </summary>
+        </member>
+        <member name="P:SwaggerAPI.Models.ObjectModel.Id">
+            <summary>
+            Уникальный идентификатор объекта, используется как ключ в базе данных.
+            </summary>
+        </member>
+        <member name="P:SwaggerAPI.Models.ObjectModel.Name">
+            <summary>
+            Имя объекта.
+            </summary>
+        </member>
+        <member name="P:SwaggerAPI.Models.ObjectModel.UserId">
+            <summary>
+            Идентификатор пользователя, который подтвердил объект.
+            </summary>
+        </member>
+        <member name="P:SwaggerAPI.Models.ObjectModel.ConfirmationTimestamp">
+            <summary>
+            Временная метка подтверждения объекта.
+            </summary>
+        </member>
         <member name="T:SwaggerAPI.Models.TicketModel">
             <summary>
             Модель билета.
@@ -185,7 +256,7 @@
         </member>
         <member name="P:SwaggerAPI.Models.TicketModel.Id">
             <summary>
-            Уникальный идентификатор события, используется как ключ в базе данных.
+            Уникальный идентификатор билета, используется как ключ в базе данных.
             </summary>
         </member>
         <member name="P:SwaggerAPI.Models.TicketModel.EventId">
