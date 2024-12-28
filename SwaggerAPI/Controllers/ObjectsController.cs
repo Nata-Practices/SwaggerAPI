@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 using SwaggerAPI.Models;
@@ -20,7 +21,9 @@ public class ObjectsController(IObjectService objectService) : ControllerBase
     /// </summary>
     /// <returns>Список объектов.</returns>
     /// <response code="200">Успешный ответ с данными объектов.</response>
+    /// <response code="401">Вы не авторизованы</response>
     [HttpGet]
+    [Authorize]
     public async Task<IActionResult> GetObjects()
     {
         var objects = await objectService.GetObjectsAsync();
@@ -39,8 +42,10 @@ public class ObjectsController(IObjectService objectService) : ControllerBase
     /// <returns>Созданный объект.</returns>
     /// <response code="201">Объект успешно создан.</response>
     /// <response code="400">Некорректные данные для создания объекта.</response>
+    /// <response code="401">Вы не авторизованы</response>
     /// <response code="409">Объект с таким ID уже существует.</response>
     [HttpPost]
+    [Authorize]
     public async Task<IActionResult> CreateObject([FromBody] ObjectModel objectModel)
     {
         try
@@ -77,8 +82,10 @@ public class ObjectsController(IObjectService objectService) : ControllerBase
     /// <param name="id">Идентификатор объекта.</param>
     /// <returns>Информация об объекте.</returns>
     /// <response code="200">Успешный ответ с данными объекта.</response>
+    /// <response code="401">Вы не авторизованы</response>
     /// <response code="404">Объект с указанным идентификатором не найден.</response>
     [HttpGet("{id}")]
+    [Authorize]
     public async Task<IActionResult> GetObjectById(string id)
     {
         var obj = await objectService.GetObjectByIdAsync(id);
@@ -105,8 +112,10 @@ public class ObjectsController(IObjectService objectService) : ControllerBase
     /// <param name="id">Идентификатор объекта.</param>
     /// <returns>Результат операции.</returns>
     /// <response code="200">Объект успешно удален.</response>
+    /// <response code="401">Вы не авторизованы</response>
     /// <response code="404">Объект с указанным идентификатором не найден.</response>
     [HttpDelete("{id}")]
+    [Authorize]
     public async Task<IActionResult> DeleteObject(string id)
     {
         var obj = await objectService.DeleteObjectAsync(id);
@@ -132,7 +141,9 @@ public class ObjectsController(IObjectService objectService) : ControllerBase
     /// </summary>
     /// <returns>Нет содержимого.</returns>
     /// <response code="204">Все объекты успешно удалены.</response>
+    /// <response code="401">Вы не авторизованы</response>
     [HttpDelete("all")]
+    [Authorize]
     public async Task<IActionResult> DeleteAllTickets()
     {
         var objects = await objectService.GetObjectsAsync();

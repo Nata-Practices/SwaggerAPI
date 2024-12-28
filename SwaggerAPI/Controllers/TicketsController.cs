@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 using SwaggerAPI.Models;
@@ -19,7 +20,9 @@ public class TicketsController(ITicketService ticketService) : ControllerBase
     /// </summary>
     /// <returns>Список билетов.</returns>
     /// <response code="200">Успешный ответ с данными билетов.</response>
+    /// <response code="401">Вы не авторизованы</response>
     [HttpGet]
+    [Authorize]
     public async Task<IActionResult> GetAllTickets()
     {
         var tickets = await ticketService.GetAllTicketsAsync();
@@ -37,8 +40,10 @@ public class TicketsController(ITicketService ticketService) : ControllerBase
     /// <param name="id">Идентификатор билета.</param>
     /// <returns>Информация о билете.</returns>
     /// <response code="200">Успешный ответ с данными билета.</response>
+    /// <response code="401">Вы не авторизованы</response>
     /// <response code="404">Билет с указанным идентификатором не найден.</response>
     [HttpGet("{id}")]
+    [Authorize]
     public async Task<IActionResult> GetTicketById(string id)
     {
         var ticket = await ticketService.GetTicketByIdAsync(id);
@@ -66,8 +71,10 @@ public class TicketsController(ITicketService ticketService) : ControllerBase
     /// <returns>Созданный билет.</returns>
     /// <response code="201">Билет успешно создан.</response>
     /// <response code="400">Неверный формат данных.</response>
+    /// <response code="401">Вы не авторизованы</response>
     /// <response code="409">Билет c таким id уже существует.</response>
     [HttpPost]
+    [Authorize]
     public async Task<IActionResult> BuyTicket([FromBody] TicketModel newTicket)
     {
         try
@@ -106,8 +113,10 @@ public class TicketsController(ITicketService ticketService) : ControllerBase
     /// <param name="buyerName">Новое имя покупателя.</param>
     /// <returns>Обновленный билет.</returns>
     /// <response code="200">Билет успешно обновлен.</response>
+    /// <response code="401">Вы не авторизованы</response>
     /// <response code="404">Билет с указанным идентификатором не найден.</response>
     [HttpPut("{id}")]
+    [Authorize]
     public async Task<IActionResult> UpdateTicket(string id, [FromBody] string buyerName)
     {
         var updatedTicket = await ticketService.UpdateTicketAsync(id, buyerName);
@@ -134,8 +143,10 @@ public class TicketsController(ITicketService ticketService) : ControllerBase
     /// <param name="id">Идентификатор билета.</param>
     /// <returns>Информация о возвращенном билете.</returns>
     /// <response code="200">Билет успешно удален.</response>
+    /// <response code="401">Вы не авторизованы</response>
     /// <response code="404">Билет с указанным идентификатором не найден.</response>
     [HttpDelete("{id}")]
+    [Authorize]
     public async Task<IActionResult> DeleteTicket(string id)
     {
         var ticket = await ticketService.ReturnTicketAsync(id);
@@ -161,7 +172,9 @@ public class TicketsController(ITicketService ticketService) : ControllerBase
     /// </summary>
     /// <returns>Нет содержимого.</returns>
     /// <response code="204">Все билеты успешно удалены.</response>
+    /// <response code="401">Вы не авторизованы</response>
     [HttpDelete("all")]
+    [Authorize]
     public async Task<IActionResult> DeleteAllTickets()
     {
         var tickets = await ticketService.GetAllTicketsAsync();

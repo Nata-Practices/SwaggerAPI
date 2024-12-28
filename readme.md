@@ -6,6 +6,7 @@
 Приложение также предоставляет удобный Swagger UI для взаимодействия с API.
 
 Советую к посещению: [2-ой микросервис](https://github.com/Nata-Practices/UserService)
+Советую к посещению: [APIGateway](https://github.com/Nata-Practices/APIGateway)
 ---
 
 ## Структура проекта
@@ -81,7 +82,8 @@ SwaggerAPI/
    ```bash
    dotnet build
    ```
-2. Запусти тесты:
+2. Убедись, что все другие проекты запущены!
+3. Запусти тесты:
    ```bash
    dotnet test --logger "console;verbosity=detailed"
    ```

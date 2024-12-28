@@ -466,3 +466,11 @@ D:\dev\Nata\WebApplication1\SwaggerAPI\bin\Debug\net8.0\runtimes\win-x86\native\
 D:\dev\Nata\WebApplication1\SwaggerAPI\bin\Debug\net8.0\runtimes\win-x86\native\zstd.dll
 D:\dev\Nata\WebApplication1\SwaggerAPI\bin\Debug\net8.0\Castle.Core.dll
 D:\dev\Nata\WebApplication1\SwaggerAPI\bin\Debug\net8.0\Moq.dll
+D:\dev\Nata\WebApplication1\SwaggerAPI\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+D:\dev\Nata\WebApplication1\SwaggerAPI\bin\Debug\net8.0\Microsoft.IdentityModel.Abstractions.dll
+D:\dev\Nata\WebApplication1\SwaggerAPI\bin\Debug\net8.0\Microsoft.IdentityModel.JsonWebTokens.dll
+D:\dev\Nata\WebApplication1\SwaggerAPI\bin\Debug\net8.0\Microsoft.IdentityModel.Logging.dll
+D:\dev\Nata\WebApplication1\SwaggerAPI\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.dll
+D:\dev\Nata\WebApplication1\SwaggerAPI\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+D:\dev\Nata\WebApplication1\SwaggerAPI\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
+D:\dev\Nata\WebApplication1\SwaggerAPI\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll

@@ -4,6 +4,19 @@
         <name>SwaggerAPI</name>
     </assembly>
     <members>
+        <member name="T:AuthController">
+            <summary>
+            Контроллер для управления авторизацией.
+            </summary>
+        </member>
+        <member name="M:AuthController.GenerateToken">
+            <summary>
+            Генерация JWT токена.
+            </summary>
+            <returns>Сгенерированный токен.</returns>
+            <response code="200">Токен успешно создан.</response>
+            <response code="500">Ошибка в настройках JWT.</response>
+        </member>
         <member name="T:SwaggerAPI.Controllers.EventsController">
             <summary>
             Контроллер для управления событиями.
@@ -20,6 +33,7 @@
             </summary>
             <returns>Список событий</returns>
             <response code="200">Успешный ответ с данными событий</response>
+            <response code="401">Вы не авторизованы</response>
         </member>
         <member name="M:SwaggerAPI.Controllers.EventsController.GetEventById(System.String)">
             <summary>
@@ -28,6 +42,7 @@
             <param name="id">Идентификатор события</param>
             <returns>Информация о событии</returns>
             <response code="200">Успешный ответ с данными события</response>
+            <response code="401">Вы не авторизованы</response>
             <response code="404">Событие с таким идентификатором не найдено</response>
         </member>
         <member name="M:SwaggerAPI.Controllers.EventsController.AddEvent(SwaggerAPI.Models.EventModel)">
@@ -38,6 +53,7 @@
             <returns>Созданное событие</returns>
             <response code="201">Событие успешно создано</response>
             <response code="400">Неверный формат данных</response>
+            <response code="401">Вы не авторизованы</response>
             <response code="409">Событие c таким id уже существует</response>
         </member>
         <member name="M:SwaggerAPI.Controllers.EventsController.UpdateEvent(System.String,SwaggerAPI.Models.EventModel)">
@@ -48,6 +64,7 @@
             <param name="updatedEvent">Модель обновленного события</param>
             <returns>Обновленное событие</returns>
             <response code="200">Событие успешно обновлено</response>
+            <response code="401">Вы не авторизованы</response>
             <response code="404">Событие с таким идентификатором не найдено</response>
         </member>
         <member name="M:SwaggerAPI.Controllers.EventsController.DeleteEvent(System.String)">
@@ -57,6 +74,7 @@
             <param name="id">Идентификатор события</param>
             <returns>Удаленное событие</returns>
             <response code="200">Событие успешно удалено</response>
+            <response code="401">Вы не авторизованы</response>
             <response code="404">Событие с таким идентификатором не найдено</response>
         </member>
         <member name="M:SwaggerAPI.Controllers.EventsController.DeleteAllEvents">
@@ -65,6 +83,7 @@
             </summary>
             <returns>Нет содержимого</returns>
             <response code="204">Все события успешно удалены</response>
+            <response code="401">Вы не авторизованы</response>
         </member>
         <member name="T:SwaggerAPI.Controllers.ObjectsController">
             <summary>
@@ -82,6 +101,7 @@
             </summary>
             <returns>Список объектов.</returns>
             <response code="200">Успешный ответ с данными объектов.</response>
+            <response code="401">Вы не авторизованы</response>
         </member>
         <member name="M:SwaggerAPI.Controllers.ObjectsController.CreateObject(SwaggerAPI.Models.ObjectModel)">
             <summary>
@@ -91,6 +111,7 @@
             <returns>Созданный объект.</returns>
             <response code="201">Объект успешно создан.</response>
             <response code="400">Некорректные данные для создания объекта.</response>
+            <response code="401">Вы не авторизованы</response>
             <response code="409">Объект с таким ID уже существует.</response>
         </member>
         <member name="M:SwaggerAPI.Controllers.ObjectsController.GetObjectById(System.String)">
@@ -100,6 +121,7 @@
             <param name="id">Идентификатор объекта.</param>
             <returns>Информация об объекте.</returns>
             <response code="200">Успешный ответ с данными объекта.</response>
+            <response code="401">Вы не авторизованы</response>
             <response code="404">Объект с указанным идентификатором не найден.</response>
         </member>
         <member name="M:SwaggerAPI.Controllers.ObjectsController.DeleteObject(System.String)">
@@ -109,6 +131,7 @@
             <param name="id">Идентификатор объекта.</param>
             <returns>Результат операции.</returns>
             <response code="200">Объект успешно удален.</response>
+            <response code="401">Вы не авторизованы</response>
             <response code="404">Объект с указанным идентификатором не найден.</response>
         </member>
         <member name="M:SwaggerAPI.Controllers.ObjectsController.DeleteAllTickets">
@@ -117,6 +140,7 @@
             </summary>
             <returns>Нет содержимого.</returns>
             <response code="204">Все объекты успешно удалены.</response>
+            <response code="401">Вы не авторизованы</response>
         </member>
         <member name="T:SwaggerAPI.Controllers.TicketsController">
             <summary>
@@ -134,6 +158,7 @@
             </summary>
             <returns>Список билетов.</returns>
             <response code="200">Успешный ответ с данными билетов.</response>
+            <response code="401">Вы не авторизованы</response>
         </member>
         <member name="M:SwaggerAPI.Controllers.TicketsController.GetTicketById(System.String)">
             <summary>
@@ -142,6 +167,7 @@
             <param name="id">Идентификатор билета.</param>
             <returns>Информация о билете.</returns>
             <response code="200">Успешный ответ с данными билета.</response>
+            <response code="401">Вы не авторизованы</response>
             <response code="404">Билет с указанным идентификатором не найден.</response>
         </member>
         <member name="M:SwaggerAPI.Controllers.TicketsController.BuyTicket(SwaggerAPI.Models.TicketModel)">
@@ -152,6 +178,7 @@
             <returns>Созданный билет.</returns>
             <response code="201">Билет успешно создан.</response>
             <response code="400">Неверный формат данных.</response>
+            <response code="401">Вы не авторизованы</response>
             <response code="409">Билет c таким id уже существует.</response>
         </member>
         <member name="M:SwaggerAPI.Controllers.TicketsController.UpdateTicket(System.String,System.String)">
@@ -162,6 +189,7 @@
             <param name="buyerName">Новое имя покупателя.</param>
             <returns>Обновленный билет.</returns>
             <response code="200">Билет успешно обновлен.</response>
+            <response code="401">Вы не авторизованы</response>
             <response code="404">Билет с указанным идентификатором не найден.</response>
         </member>
         <member name="M:SwaggerAPI.Controllers.TicketsController.DeleteTicket(System.String)">
@@ -171,6 +199,7 @@
             <param name="id">Идентификатор билета.</param>
             <returns>Информация о возвращенном билете.</returns>
             <response code="200">Билет успешно удален.</response>
+            <response code="401">Вы не авторизованы</response>
             <response code="404">Билет с указанным идентификатором не найден.</response>
         </member>
         <member name="M:SwaggerAPI.Controllers.TicketsController.DeleteAllTickets">
@@ -179,6 +208,7 @@
             </summary>
             <returns>Нет содержимого.</returns>
             <response code="204">Все билеты успешно удалены.</response>
+            <response code="401">Вы не авторизованы</response>
         </member>
         <member name="T:SwaggerAPI.Models.ApiResponse`1">
             <summary>
@@ -279,6 +309,11 @@
         <member name="P:SwaggerAPI.Models.TicketModel.PurchaseDate">
             <summary>
             Дата и время покупки билета.
+            </summary>
+        </member>
+        <member name="M:SwaggerAPI.Tests.ApiTests.GetJwtToken">
+            <summary>
+            Получение JWT-токена с реального сервиса SwaggerAPI
             </summary>
         </member>
     </members>

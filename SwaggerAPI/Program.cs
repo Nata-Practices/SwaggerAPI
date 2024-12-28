@@ -1,6 +1,10 @@
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using MongoDB.Driver;
 using SwaggerAPI.Services;
 using SwaggerAPI.Utils;
@@ -18,6 +22,27 @@ public class Program
             .SetBasePath(Directory.GetCurrentDirectory())
             .AddJsonFile("Properties/appsettings.json", optional: false, reloadOnChange: true)
             .AddJsonFile("Properties/appsettings.Development.json", optional: true, reloadOnChange: true);
+        
+        // Добавлем JWT
+        var jwtSettings = builder.Configuration.GetSection("Jwt");
+        var issuer = jwtSettings["Issuer"];
+        var audience = jwtSettings["Audience"];
+        var secretKey = jwtSettings["SecretKey"];
+
+        builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = issuer,
+                    ValidAudience = audience,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey))
+                };
+            });
         
         // Выключаю автоматический трек ошибок
         builder.Services.Configure<ApiBehaviorOptions>(options =>
@@ -49,6 +74,30 @@ public class Program
             var xmlFile = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
             var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
             options.IncludeXmlComments(xmlPath);
+            
+            options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+            {
+                In = ParameterLocation.Header,
+                Description = "Введите JWT токен с префиксом 'Bearer '",
+                Name = "Authorization",
+                Type = SecuritySchemeType.ApiKey,
+                Scheme = "Bearer"
+            });
+
+            options.AddSecurityRequirement(new OpenApiSecurityRequirement
+            {
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                        }
+                    },
+                    Array.Empty<string>()
+                }
+            });
         });
 
         // Конфигурация MongoDB
@@ -126,6 +175,8 @@ public class Program
             }
         });
         
+        app.UseAuthentication();
+        app.UseAuthorization();
         app.UseHttpsRedirection();
         app.MapControllers();
         app.Run();

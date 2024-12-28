@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 using SwaggerAPI.Models;
@@ -19,7 +20,9 @@ public class EventsController(IEventService eventService) : ControllerBase
     /// </summary>
     /// <returns>Список событий</returns>
     /// <response code="200">Успешный ответ с данными событий</response>
+    /// <response code="401">Вы не авторизованы</response>
     [HttpGet]
+    [Authorize]
     public async Task<IActionResult> GetAllEvents()
     {
         var events = await eventService.GetAllEventsAsync();
@@ -37,8 +40,10 @@ public class EventsController(IEventService eventService) : ControllerBase
     /// <param name="id">Идентификатор события</param>
     /// <returns>Информация о событии</returns>
     /// <response code="200">Успешный ответ с данными события</response>
+    /// <response code="401">Вы не авторизованы</response>
     /// <response code="404">Событие с таким идентификатором не найдено</response>
     [HttpGet("{id}")]
+    [Authorize]
     public async Task<IActionResult> GetEventById(string id)
     {
         var _event = await eventService.GetEventByIdAsync(id);
@@ -66,8 +71,10 @@ public class EventsController(IEventService eventService) : ControllerBase
     /// <returns>Созданное событие</returns>
     /// <response code="201">Событие успешно создано</response>
     /// <response code="400">Неверный формат данных</response>
+    /// <response code="401">Вы не авторизованы</response>
     /// <response code="409">Событие c таким id уже существует</response>
     [HttpPost]
+    [Authorize]
     public async Task<IActionResult> AddEvent([FromBody] EventModel newEvent)
     {
         try
@@ -105,8 +112,10 @@ public class EventsController(IEventService eventService) : ControllerBase
     /// <param name="updatedEvent">Модель обновленного события</param>
     /// <returns>Обновленное событие</returns>
     /// <response code="200">Событие успешно обновлено</response>
+    /// <response code="401">Вы не авторизованы</response>
     /// <response code="404">Событие с таким идентификатором не найдено</response>
     [HttpPut("{id}")]
+    [Authorize]
     public async Task<IActionResult> UpdateEvent(string id, [FromBody] EventModel updatedEvent)
     {
         var updated = await eventService.UpdateEventAsync(id, updatedEvent);
@@ -133,8 +142,10 @@ public class EventsController(IEventService eventService) : ControllerBase
     /// <param name="id">Идентификатор события</param>
     /// <returns>Удаленное событие</returns>
     /// <response code="200">Событие успешно удалено</response>
+    /// <response code="401">Вы не авторизованы</response>
     /// <response code="404">Событие с таким идентификатором не найдено</response>
     [HttpDelete("{id}")]
+    [Authorize]
     public async Task<IActionResult> DeleteEvent(string id)
     {
         var eventToRemove = await eventService.DeleteEventAsync(id);
@@ -160,7 +171,9 @@ public class EventsController(IEventService eventService) : ControllerBase
     /// </summary>
     /// <returns>Нет содержимого</returns>
     /// <response code="204">Все события успешно удалены</response>
+    /// <response code="401">Вы не авторизованы</response>
     [HttpDelete("all")]
+    [Authorize]
     public async Task<IActionResult> DeleteAllEvents()
     {
         var events = await eventService.GetAllEventsAsync();
