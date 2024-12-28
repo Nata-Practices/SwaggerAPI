@@ -126,4 +126,26 @@ public class ObjectsController(IObjectService objectService) : ControllerBase
             Message = $"Объект с ID {id} не найден!"
         });
     }
+    
+    /// <summary>
+    /// Удалить все объекты.
+    /// </summary>
+    /// <returns>Нет содержимого.</returns>
+    /// <response code="204">Все объекты успешно удалены.</response>
+    [HttpDelete("all")]
+    public async Task<IActionResult> DeleteAllTickets()
+    {
+        var objects = await objectService.GetObjectsAsync();
+        foreach (var _object in objects)
+        {
+            await objectService.DeleteObjectAsync(_object.Id);
+        }
+
+        return Ok(new ApiResponse<string>
+        {
+            Success = true,
+            Data = null,
+            Message = "Все объекты успешно удалены."
+        });
+    }
 }

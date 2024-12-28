@@ -111,6 +111,13 @@
             <response code="200">Объект успешно удален.</response>
             <response code="404">Объект с указанным идентификатором не найден.</response>
         </member>
+        <member name="M:SwaggerAPI.Controllers.ObjectsController.DeleteAllTickets">
+            <summary>
+            Удалить все объекты.
+            </summary>
+            <returns>Нет содержимого.</returns>
+            <response code="204">Все объекты успешно удалены.</response>
+        </member>
         <member name="T:SwaggerAPI.Controllers.TicketsController">
             <summary>
             Контроллер для управления билетами.

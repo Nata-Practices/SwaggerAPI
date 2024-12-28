@@ -5,6 +5,7 @@
 
 Приложение также предоставляет удобный Swagger UI для взаимодействия с API.
 
+Советую к посещению: [2-ой микросервис](https://github.com/Nata-Practices/UserService)
 ---
 
 ## Структура проекта
@@ -45,7 +46,7 @@ SwaggerAPI/
 
 ### Требования:
 - .NET 8.0 (или новее)
-- IDE с поддержкой .NET (например, JetBrains Rider или Visual Studio)
+- IDE с поддержкой .NET
 - MongoDB (локальная или удалённая база данных)
 - Redis (локальный или удалённый сервер)
 - Kafka (локальный или удалённый сервер)
@@ -111,5 +112,17 @@ SwaggerAPI/
 - `POST /api/objects` — создать новый объект
 - `GET /api/objects/{id}` — получить конкретный объект по id
 - `DELETE /api/objects/{id}` — удалить конкретный объект по id
+
+---
+
+## Kafka
+
+- **Producer**:
+  - Отправляет запрос юзеру в тему `ObjectRequests`.
+
+- **Consumer**:
+  - Принимает сообщения из темы `ObjectConfirmations`:
+    - Сообщение содержит `Id` объекта (ключ) и `timestamp` (значение).
+    - Обновляет поле `ConfirmationTimestamp` для соответствующего объекта.
 
 ---

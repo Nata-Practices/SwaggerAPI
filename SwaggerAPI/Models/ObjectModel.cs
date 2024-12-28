@@ -1,6 +1,8 @@
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using Newtonsoft.Json;
 
 namespace SwaggerAPI.Models;
 
@@ -34,6 +36,7 @@ public class ObjectModel
     /// Временная метка подтверждения объекта.
     /// </summary>
     [Required(ErrorMessage = "Поле 'ConfirmationTimestamp' обязательно для заполнения.")]
-    [DataType(DataType.DateTime, ErrorMessage = "Неверный формат временной метки.")]
-    public DateTime ConfirmationTimestamp { get; set; }
+    [DefaultValue("0001-01-01T00:00:00Z")]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Include)]
+    public DateTime ConfirmationTimestamp { get; set; } = DateTime.MinValue;
 }
